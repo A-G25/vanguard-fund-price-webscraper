@@ -7,7 +7,7 @@ import smtplib
 
 # This driver is for google chrome on Windows, but drivers are available
 # for other operating systems and web browsers
-CHROME_DRIVER_PATH = r"lib/chromedriver-win.exe"
+DRIVER_PATH = r"lib/chromedriver-win.exe"
 
 VANGUARD_URL = "https://www.vanguardinvestor.co.uk/what-we-offer/all-products"
 
@@ -123,7 +123,7 @@ def send_email(message_content):
 
 
 if __name__ == "__main__":
-    fund_price_scraper = FundPriceScraper(driver_path=CHROME_DRIVER_PATH)
+    fund_price_scraper = FundPriceScraper(driver_path=DRIVER_PATH)
     fund_price_scraper.find_cheapest_fund()
     fund_price_scraper.extract_portfolio_data()
     send_email(message_content=fund_price_scraper.create_email_content())
