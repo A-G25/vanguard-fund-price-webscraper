@@ -5,20 +5,19 @@ from selenium.webdriver.support.wait import WebDriverWait
 from selenium.webdriver.support import expected_conditions as ec
 import smtplib
 
-# This driver is for google chrome on Windows, but drivers are available
-# for other operating systems and web browsers
+# Path for Selenium binary. The binary is browser/ operating system specific
+# (see readme for more details)
 DRIVER_PATH = r"lib/chromedriver-win.exe"
 
 VANGUARD_URL = "https://www.vanguardinvestor.co.uk/what-we-offer/all-products"
 
-# If an email address is provided then the program will log into the email
-# using SMTP lib and send an email with the results of the scraping
+# If an email address is provided, the program will log into the email
+# using smtplib and send an email containing the results of the webscraping
 EMAIL_ADDRESS = "example@example.com"
 EMAIL_PASSWORD = "exampleexample"
 
 
 class FundPriceScraper:
-    """Class to scrape fund prices from the Vanguard website"""
 
     def __init__(self, driver_path):
         self.driver = webdriver.Chrome(executable_path=driver_path)
@@ -41,7 +40,7 @@ class FundPriceScraper:
         )
         toggle_switch.click()
 
-        # Finds the fund with the largest percentage drop
+        # Finds the fund with the largest percentage price drop
         funds = self.driver.find_elements_by_css_selector(".EQUITY tr")
         for fund in funds:
             try:
@@ -82,7 +81,7 @@ class FundPriceScraper:
             "#holdingDetailsEquity tbody tr"
         )
 
-        # Stores details of the top 3 stocks in the fund in a dict
+        # Stores details of the funds largest 3 holdings in a dict
         for stock in holdings[:3]:
             self.fund["holdings"].append({
                 'name': stock.find_element_by_css_selector('.name'),
